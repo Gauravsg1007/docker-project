@@ -1,0 +1,29 @@
+pipeline {
+	agent {
+		  label {
+				label "dev-env"
+				customWorkspace "/mnt/project"
+				
+		  }
+		  
+	}
+	environment {
+				   url = "https://github.com/Gauravsg1007/webapp.git"
+	}
+	tools {
+	       maven 'maven'
+	}
+	stages {
+				stage ("CLONE_PROJECT") {
+					steps { 
+								sh 'rm -rf *'
+								sh 'git clone $url'
+						}
+				}
+                stage ("BUILD_PROJECT")	{
+					steps {
+							sh 'cd webapp && mvn clean install'                   
+				    }
+                }  
+	}
+}
